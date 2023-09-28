@@ -26,9 +26,9 @@ class App():
         self.window.title("List of employees")
         self.window.geometry("1000x700")
 
-        EmpleadoCmp(master=self.window, name="Rodolfo", photo="hierarchyGUI-LP2/img/catSmurf.png",
+        EmpleadoCmp(master=self.window, name="Rodolfo", photo="hierarchyGUI-LP2/Empleados/img/catSmurf.png",
                      major='ITIT').grid(column=0,row=0)
-        EmpleadoCmp(master=self.window, name="Manuel", photo="hierarchyGUI-LP2/img/amogus.png",
+        EmpleadoCmp(master=self.window, name="Manuel", photo="hierarchyGUI-LP2/Empleados/img/amogus.png",
                      major='Arquitectura').grid(column=2,row=0)
 
         self.window.mainloop()
