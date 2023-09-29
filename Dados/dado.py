@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 import random
-import os
 
 class Dado(ttk.Frame):
     def __init__(self, master, valor=6):
@@ -9,9 +8,8 @@ class Dado(ttk.Frame):
         self.__valor = tk.IntVar(value=valor)
         self.valor = valor
         self.image_path = f'hierarchyGUI-LP2/Dados/img/{self.valor}.png'
-        if os.path.exists(self.image_path):
-            self.photo = tk.PhotoImage(file=self.image_path)
-            ttk.Label(self, image=self.photo).grid(column=0, row=1)
+        self.photo = tk.PhotoImage(file=self.image_path)
+        ttk.Label(self, image=self.photo).grid(column=0, row=1)
 
     @property
     def valor(self):
@@ -28,11 +26,7 @@ class Dado(ttk.Frame):
     def lanzar(self):
         new_value = random.randint(1, 6)
         self.valor = new_value
-        self.update_image()
-
-    def update_image(self):
         self.image_path = f'hierarchyGUI-LP2/Dados/img/{self.valor}.png'
-        if os.path.exists(self.image_path):
-            self.photo = tk.PhotoImage(file=self.image_path)
-            label = self.winfo_children()[0]
-            label.configure(image=self.photo)
+        self.photo = tk.PhotoImage(file=self.image_path)
+        label = self.winfo_children()[0]
+        label.configure(image=self.photo)
