@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from tkinter import simpledialog
+from tkinter import simpledialog, messagebox
 
 class Animal(ttk.Frame):
     animalsList = []  # Lista de objetos Animal
@@ -37,7 +37,7 @@ class App():
     def __init__(self):
         self.window = tk.Tk()
         self.window.title('Animals')
-        self.window.geometry('1000x700')
+        self.window.geometry('400x300')
         
         self.myListbox = tk.Listbox(self.window)
         self.myListbox.grid(column=0, row=0, padx=15, pady=15)
@@ -72,7 +72,8 @@ class App():
         try:
             image = Image.open(f'hierarchyGUI-LP2/Animales/img/{element}.png')
         except FileNotFoundError:
-            image = Image.open(f'hierarchyGUI-LP2/Animales/img/default.png')
+            messagebox.showerror("Error", f"No image found for {element}")
+            return
         resized_image = image.resize((200, 200))
         self.current_animal = Animal(self.window, element)
         self.current_animal.picture = ImageTk.PhotoImage(resized_image)
