@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import random
 
+
 class Dado(ttk.Frame):
     def __init__(self, master, valor=6):
         super().__init__(master, borderwidth=2, relief="solid")
