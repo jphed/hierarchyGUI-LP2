@@ -1,15 +1,19 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+from tkinter import simpledialog
 
 class Animal(ttk.Frame):
     def __init__(self, master, name):
         super().__init__(master)
         self._name = name
         image = Image.open(f'hierarchyGUI-LP2/Animales/img/{self.name}.png')
-        self.picture = ImageTk.PhotoImage(image)
+        resized_image = image.resize((200, 200))  # Cambiar la resolución a 200x200
+        self.picture = ImageTk.PhotoImage(resized_image)
         self.picture_label = ttk.Label(self, image=self.picture)
         self.picture_label.grid(column=0, row=1)
+        self.name_label = ttk.Label(self, text=self.name)
+        self.name_label.grid(column=0, row=0)
 
     @property
     def name(self):
@@ -40,6 +44,9 @@ class App():
         
         # Store Animal objects in a list
         self.animalsList = [animal1, animal2]
+
+        self.add_button = ttk.Button(self.window, text="Add Element", command=self.add_element)
+        self.add_button.grid(column=0, row=2, padx=15, pady=15)
         
         for animal in self.animalsList:
             self.myListbox.insert(tk.END, animal.name)
@@ -47,6 +54,12 @@ class App():
         self.myListbox.bind('<<ListboxSelect>>', self.show_details)
         
         self.animal_frame = None
+
+    def add_element(self):
+        element = simpledialog.askstring("Add Element", "Enter the element to add:")
+        if not element:
+            element = "default"
+        self.myListbox.insert(tk.END, element)
 
     def show_details(self, event):
         selected_item_index = self.myListbox.curselection()
