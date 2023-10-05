@@ -1,15 +1,22 @@
 import tkinter as tk
 from tkinter import ttk
+from PIL import Image, ImageTk
 
 class Animal(ttk.Frame):
+    animalsList = []
+
     def __init__(self, master, name):
         super().__init__(master)
-        self._name = name  # Use a private variable for name
-        self.picture = tk.PhotoImage(file=f'hierarchyGUI-LP2/Animales/img/{self.name}.png')
+        self._name = name
+        image = Image.open(f'hierarchyGUI-LP2/Animales/img/{self.name}.png')
+        resized_image = image.resize((200, 200))
+        self.picture = ImageTk.PhotoImage(resized_image)
+        self.picture_label = ttk.Label(self, image=self.picture)
+        self.picture_label.grid(column=0, row=1)
+        self.name_label = ttk.Label(self, text=self.name)
+        self.name_label.grid(column=0, row=0)
         
-        # Create a Label widget to display the picture
-        ttk.Label(master, textvariable=self.name).grid(column=0, row=0)
-        self.picture_label = ttk.Label(self, image=self.picture).grid(column=0, row=1)
+        Animal.animalsList.append(self)  # Agregar objeto Animal a la lista
 
     @property
     def name(self):

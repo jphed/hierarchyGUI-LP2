@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from tkinter import simpledialog, messagebox
+from tkinter import simpledialog, messagebox, scrolledtext
+import os
 
 class Animal(ttk.Frame):
     animalsList = []  # Lista de objetos Animal
@@ -37,7 +38,7 @@ class App():
     def __init__(self):
         self.window = tk.Tk()
         self.window.title('Animals')
-        self.window.geometry('400x300')
+        self.window.geometry('600x400')
         
         self.myListbox = tk.Listbox(self.window)
         self.myListbox.grid(column=0, row=0, padx=15, pady=15)
@@ -55,6 +56,12 @@ class App():
 
         self.add_button = ttk.Button(self.window, text="Add Element", command=self.add_element)
         self.add_button.grid(column=0, row=2, padx=15, pady=15)
+
+        self.delete_button = ttk.Button(self.window, text="Delete Element", command=self.delete_element)
+        self.delete_button.grid(column=1, row=2, padx=15, pady=15)
+
+        self.show_files_button = ttk.Button(self.window, text="Show Files", command=self.show_files)
+        self.show_files_button.grid(column=2, row=2, padx=15, pady=15)
         
         # Bind ListboxSelect event to update_picture function
         self.myListbox.bind("<<ListboxSelect>>", self.update_picture)
@@ -80,6 +87,27 @@ class App():
         self.picture_label.configure(image=self.current_animal.picture)
         self.myListbox.insert(tk.END, element)
 
+    def delete_element(self):
+        selection = self.myListbox.curselection()
+        if selection:
+            index = selection[0]
+            name = self.myListbox.get(index)
+            # Find corresponding Animal object
+            for animal in self.animalsList:
+                if animal.name == name:
+                    self.animalsList.remove(animal)
+                    break
+            # Delete item from Listbox
+            self.myListbox.delete(index)
+            # Update picture
+            if self.animalsList:
+                self.current_animal = self.animalsList[0]
+                self.picture_label.configure(image=self.current_animal.picture)
+            else:
+                self.picture_label.configure(image=None)
+
+            self.animal_frame = None
+
     def update_picture(self, event):
         # Get selected item from Listbox
         selection = event.widget.curselection()
@@ -94,21 +122,22 @@ class App():
             # Update picture
             self.picture_label.configure(image=self.current_animal.picture)
 
-    def show_details(self, event):
-        selected_item_index = self.myListbox.curselection()
+    def show_files(self):
+        # Create new window
+        files_window = tk.Toplevel(self.window)
+        files_window.title('Available Files')
+        files_window.geometry('300x200')
         
-        if selected_item_index:
-            selected_index = selected_item_index[0]
-            selected_item = self.animalsList[selected_index]
-            
-            if self.animal_frame is not None:
-                # Destroy the previous frame
-                self.animal_frame.destroy()
-            
-            # Create a new frame for the selected animal
-            self.animal_frame = Animal(self.window, selected_item.name)
-            self.animal_frame.grid(column=1, row=0)
+        # Get list of files in img folder
+        files = os.listdir('hierarchyGUI-LP2/Animales/img')
+        # Create ScrolledText widget to display available files
+        file_list = scrolledtext.ScrolledText(files_window, width=30, height=10)
+        file_list.grid(column=0, row=0, padx=15, pady=15)
+        # Insert file names into ScrolledText widget
+        for file in files:
+            file_list.insert(tk.END, file + '\n')
 
+        file_list.config(state=tk.DISABLED)
 
 if __name__ == '__main__':
     App()
