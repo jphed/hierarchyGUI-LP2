@@ -1,3 +1,23 @@
+#https://github.com/jphed/hierarchyGUI-LP2
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+#type in terminal: pip install pillow
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog, messagebox, scrolledtext
@@ -89,9 +109,12 @@ class App():
             self.myListbox.delete(index)
             # Update picture
             if self.animalsList:
+                # Set current animal to first animal in list
                 self.current_animal = self.animalsList[0]
                 self.picture_label.configure(image=self.current_animal.picture)
             else:
+                # Set current animal to None and clear picture
+                self.current_animal = None
                 self.picture_label.configure(image=None)
 
             self.animal_frame = None
