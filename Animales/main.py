@@ -22,7 +22,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog, messagebox, scrolledtext
 import os
-from animal import Animal
+from animal import Animal, AnimalCmp
 from PIL import Image, ImageTk
 
 class App():
@@ -35,11 +35,12 @@ class App():
         self.myListbox.grid(column=0, row=0, padx=15, pady=15)
         
         # Create Animal objects
-        animal1 = Animal(self.window, 'Amogus')
-        animal2 = Animal(self.window, 'smurfcat')
+        animal = Animal("amogus")
+        animal1 = AnimalCmp(self.window, animal.name)
+        animal2 = AnimalCmp(self.window, 'smurfcat')
         
         # Store Animal objects in a list
-        self.animalsList = Animal.animalsList
+        self.animalsList = AnimalCmp.animalsList
 
         # Add animals to Listbox
         for animal in self.animalsList:
@@ -90,7 +91,7 @@ class App():
             messagebox.showerror("Error", f"No image found for {element}")
             return
         resized_image = image.resize((200, 200))
-        self.current_animal = Animal(self.window, element)  
+        self.current_animal = AnimalCmp(self.window, element)  
         self.current_animal.picture = ImageTk.PhotoImage(resized_image)
         self.picture_label.configure(image=self.current_animal.picture)
         self.myListbox.insert(tk.END, element)
